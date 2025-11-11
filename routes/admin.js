@@ -4,6 +4,7 @@ module.exports = function (config) {
   const router = express.Router();
 
   // TODO fix authentication and authorization for admin routes
+  //committing a change to get the codeql to run
 
   // --- Admin Dashboard ---
   // Provides overview statistics for administrators.
