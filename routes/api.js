@@ -56,7 +56,8 @@ module.exports = function (config) {
     //    res.status(201).json({ userId: result.rows[0].user_id, username: username });
     // }).catch(err => { ... });
 
-    res.status(201).send(`User ${username} registered.`);
+    // res.status(201).send(`User ${username} registered.`); this line has issues
+    res.status(201).json({ message: `User registered successfully`, username }); //potential fix
   });
 
   // --- Get Product Information ---
