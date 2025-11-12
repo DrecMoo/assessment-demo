@@ -23,6 +23,11 @@ module.exports = function (config) {
   // Endpoint for administrative actions on users.
   router.post("/users/suspend/:userId", (req, res) => {
     const userId = req.params.userId;
+    if (!/^[a-zA-Z0-9]+$/.test(userId)) {
+      res
+        .status(400)
+        .send("Invalid User ID.");
+    }
     console.log(`Admin request to suspend user ID: ${userId}`);
     res.send(`(Simulated) Suspension action processed for user ${userId}.`);
   });
