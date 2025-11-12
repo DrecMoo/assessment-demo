@@ -27,9 +27,10 @@ module.exports = function (config) {
       res
         .status(400)
         .send("Invalid User ID.");
+    } else {
+      console.log(`Admin request to suspend user ID: ${userId}`);
+      res.send(`(Simulated) Suspension action processed for user ${userId}.`);
     }
-    console.log(`Admin request to suspend user ID: ${userId}`);
-    res.send(`(Simulated) Suspension action processed for user ${userId}.`);
   });
 
   router.delete("/users/:userId", (req, res) => {
