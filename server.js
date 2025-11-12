@@ -72,7 +72,11 @@ app.listen(port, () => {
       "DB URL Host:",
       process.env.DATABASE_URL.split("@")[1].split(":")[0]
     );
-    console.log("API Key Prefix:", process.env.API_KEY.substring(0, 8) + "...");
+    // CodeQL is upset as according to it, the line below is logging
+    // sensitive information, ergo I am going to test a tenative fix by
+    // just commenting it out and seeing if things don't break if we
+    // refrain from logging the API key.
+    //console.log("API Key Prefix:", process.env.API_KEY.substring(0, 8) + "...");
   }
   console.log("Using JWT Secret:", config.jwtSecret);
 });
