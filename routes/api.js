@@ -1,5 +1,31 @@
 const express = require("express");
-const md5 = require("md5");
+//const md5 = require("md5");
+//Function to replace md5 and securely hash in accordance with PBKDF2
+async function securelyHashPassword(password, salt)
+{
+	const encocer = new TextEncoder();
+	const keyMaterial = await window.crypto.subtle.importKey(
+		"raw",
+		encoder.encode(password),
+		"PBKDF2",
+		false,
+		["derveKey"]
+	);
+	const key = await window.crypto.subtle.deriveKey(
+		{
+			name: "PBKDF2",
+			salt: encoder.encode(salt),
+			iterations: 600000
+			hash: "SHA-256"
+		},
+		keyMaterial,
+		{ name: "HMAC", hash: "SHA-256", length: 256 },
+		false,
+		["sign"]
+	);
+	const exportedKey = await window.crypto.subtle.exportKey("raw", key);
+	return new Uint8Array(exportedKey);
+}
 
 // Route handler function, receives config from server.js
 module.exports = function (config) {
@@ -46,7 +72,19 @@ module.exports = function (config) {
     }
 
     // Hash password before storing (using md5 for now)
+    /* UPDATE: md5 is outdated and vulnerable to attacks due to it's
+     		lack of sufficient computational complexity, so it is being 
+     		replaced by PBKDF2 in accordance with OWASP and NIST's
+     		current recommendations. For more info, see the links below:
+     		https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+     		https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#pbkdf2
+	Old Code:
     const hashedPassword = md5(password);
+    console.log(
+      `Registering user: ${username}, Email: ${email}, Hash: ${hashedPassword}`
+    );*/
+    // New Secure Hash password Below Implementation Below
+    const hashedPassword = securelyHashPassword(password, "456d1c42de0111f3d01a30ffebde3c8f5666111a326f427fce987aae18d4ed5f");
     console.log(
       `Registering user: ${username}, Email: ${email}, Hash: ${hashedPassword}`
     );
