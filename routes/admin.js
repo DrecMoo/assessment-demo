@@ -29,10 +29,16 @@ module.exports = function (config) {
 
   router.delete("/users/:userId", (req, res) => {
     const userId = req.params.userId;
-    console.log(`Admin request to DELETE user ID: ${userId}`);
-    res
-      .status(200)
-      .send(`(Simulated) Deletion action processed for user ${userId}.`);
+    if (!/^[a-zA-Z0-9]+$/.test(userId)) {
+      res
+        .status(400)
+        .send("Invalid User ID.");
+    } else {
+      console.log(`Admin request to DELETE user ID: ${userId}`);
+      res
+        .status(200)
+        .send(`(Simulated) Deletion action processed for user ${userId}.`);
+    }
   });
 
   // --- System Logs Viewer ---

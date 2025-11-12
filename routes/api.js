@@ -27,7 +27,7 @@ module.exports = function (config) {
       // res.json(rows);
       /*res.send(
         `(Simulated) Search results for: ${searchTerm}. Query: ${queryText}`
-      );*/ .//has the error
+      );*/ //has the error
       res.json({simulated: true, searchTerm,query: queryText}); //the fixed line
     } catch (err) {
       console.error("Database error during user search:", err);
